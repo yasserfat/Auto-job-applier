@@ -1,0 +1,31 @@
+# Dependencies
+node_modules/
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Personal data
+config/profile.json
+assets/*
+!assets/.gitkeep
+
+# Databases and generated output
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+logs/
+output/
+external_jobs.xlsx
+explore/out*/
+
+# Editor / OS / tooling
+.vscode/
+.idea/
+.claude/
+CLAUDE.md
+*.log
+Thumbs.db
+.DS_Store
