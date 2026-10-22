@@ -61,12 +61,16 @@ type SearchResponse = { totalResults: number; totalPages: number; page: number; 
 export const jobLink = (uuid: string) => `${BASE}/jobs/${uuid}`;
 
 async function resolveLocationId(): Promise<string> {
+  const city = config.city;
   try {
-    const res = await fetch(`${BASE}/api/open/suggestions/location?text=Salzburg`);
+    const res = await fetch(`${BASE}/api/open/suggestions/location?text=${encodeURIComponent(city)}`);
     const list = (await res.json()) as { locationId: string; text: string; type: string }[];
-    const hit = list.find((l) => l.type === 'TOWN' && l.text === 'Salzburg');
+    const exact = list.filter((l) => (l.type === 'TOWN' || l.type === 'MUNICIPALITY') && l.text.toLowerCase() === city.toLowerCase());
+    const hit = exact.find((l) => l.type === 'TOWN') ?? exact[0];
     if (hit) return hit.locationId;
+    if (city !== 'Salzburg') throw new Error(`CITY "${city}" not found on jobs.ams.at. Suggestions: ${list.filter((l) => l.type === 'TOWN' || l.type === 'MUNICIPALITY').map((l) => l.text).join(', ') || '-'}`);
   } catch (e) {
+    if (city !== 'Salzburg') throw e;
     log.warn('Location lookup failed, using known Salzburg ID', e);
   }
   return 'TOWN_13582';
@@ -97,7 +101,7 @@ export class AmsClient {
     return (await res.json()) as T;
   }
 
-  /** All jobs from the last `maxAgeDays` within `radiusKm` of Salzburg, over all search terms. */
+  /** All jobs from the last `maxAgeDays` within `radiusKm` of `CITY`, over all search terms. */
   async searchAll(): Promise<SearchJob[]> {
     const locationId = await resolveLocationId();
     const cutoff = Date.now() - config.maxAgeDays * 86400_000;
@@ -108,7 +112,7 @@ export class AmsClient {
       let found = 0;
       for (let pageNo = 1; pageNo <= config.maxPagesPerQuery; pageNo++) {
         const params = new URLSearchParams({
-          query: term, location: 'Salzburg', locationId, vicinity: String(config.radiusKm),
+          query: term, location: config.city, locationId, vicinity: String(config.radiusKm),
           PERIOD: 'LAST_MONTH', WORKING_TIME: 'T', sortField: 'PERIOD', page: String(pageNo),
         });
         let data: SearchResponse;

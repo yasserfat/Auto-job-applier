@@ -17,11 +17,11 @@ export async function writeCoverLetter(opts: { profile: Profile; company: string
 
   const p = opts.profile;
   doc.font('Helvetica-Bold').fontSize(13).text(p.name);
-  doc.font('Helvetica').fontSize(10).text([`Salzburg, ${p.area}`, p.phone, p.email].filter((s) => s && !s.startsWith('[')).join('  ·  '));
+  doc.font('Helvetica').fontSize(10).text([`${config.city}, ${p.area}`, p.phone, p.email].filter((s) => s && !s.startsWith('[')).join('  ·  '));
   doc.moveDown(2);
   doc.fontSize(11).text(opts.company);
   doc.moveDown();
-  doc.text(`Salzburg, ${new Date().toLocaleDateString('de-AT')}`, { align: 'right' });
+  doc.text(`${config.city}, ${new Date().toLocaleDateString('de-AT')}`, { align: 'right' });
   doc.moveDown();
   doc.font('Helvetica-Bold').text(`Bewerbung als ${opts.title}${opts.reference ? ` (Ref.-Nr. ${opts.reference})` : ''}`);
   doc.moveDown();

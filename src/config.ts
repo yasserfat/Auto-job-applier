@@ -43,6 +43,7 @@ export const config = {
 
   maxApplicationsPerRun: int('MAX_APPLICATIONS_PER_RUN', 15),
   sendDelaySeconds: int('SEND_DELAY_SECONDS', 30),
+  city: env('CITY', 'Salzburg'),
   maxAgeDays: int('MAX_AGE_DAYS', 15),
   radiusKm: int('RADIUS_KM', 25),
   maxPagesPerQuery: int('MAX_PAGES_PER_QUERY', 10),

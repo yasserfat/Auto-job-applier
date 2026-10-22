@@ -1,6 +1,6 @@
 # ams-bot
 
-Once a day, ams-bot looks on jobs.ams.at for student-suitable part-time jobs within 25 km of Salzburg (cleaning, kitchen help, dishwashing, housekeeping, office, warehouse, retail). It has Claude review each new listing. When the listing asks for applications by email, it applies by email, and it emails you a morning report.
+Once a day, ams-bot looks on jobs.ams.at for student-suitable part-time jobs within 25 km of your city (default Salzburg; any Austrian town via `CITY`) (cleaning, kitchen help, dishwashing, housekeeping, office, warehouse, retail). It has Claude review each new listing. When the listing asks for applications by email, it applies by email, and it emails you a morning report.
 
 ## How it works
 
@@ -43,6 +43,7 @@ Copy `.env.example` to `.env`:
 | `GMAIL_USER` | Your Gmail address (sends applications and the report) |
 | `GMAIL_APP_PASSWORD` | 16-character Gmail app password (see below) |
 | `DRY_RUN` | `true` (default) = drafts go to you only. `false` = real applications |
+| `CITY` | Town to search around, as named on jobs.ams.at (default `Salzburg`; e.g. `Wien`, `Graz`, `Linz`, `Innsbruck`) |
 | `REPORT_TO` | Optional; defaults to `GMAIL_USER` |
 | `AI_MODEL` | Optional; default `claude-haiku-4-5` |
 

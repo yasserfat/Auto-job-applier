@@ -37,7 +37,7 @@ export function profileText(p: Profile): string {
     `Experience: ${p.experience.join('; ')}`,
     `Availability: ${p.availability}`,
     `Max hours per week: ${p.maxHoursPerWeek}`,
-    `Lives in: Salzburg, ${p.area}`,
+    `Lives in: ${config.city}, ${p.area}`,
     `Phone: ${p.phone}`,
     `Email: ${p.email}`,
     p.notes ? `Notes: ${p.notes}` : '',
